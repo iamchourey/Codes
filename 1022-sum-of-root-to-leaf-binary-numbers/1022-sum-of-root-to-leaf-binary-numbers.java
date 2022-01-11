@@ -26,9 +26,6 @@ class Solution {
         
         sum=sum*2+root.val;
         
-        if(root.left==null && root.right==null)
-            return sum;
-        else
-            return sumMethod(root.left,sum)+sumMethod(root.right,sum);
+        return root.left==root.right?sum:sumMethod(root.left,sum)+sumMethod(root.right,sum);
     }
 }
