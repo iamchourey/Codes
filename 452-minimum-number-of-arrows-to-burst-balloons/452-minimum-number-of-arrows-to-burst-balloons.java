@@ -5,7 +5,7 @@ class Solution {
         
         Arrays.sort(points,new Comparator<int[]>(){
             public int compare(int[] a1,int[] a2){
-                return Integer.compare(a1[0],a2[0]);
+                return Integer.compare(a1[1],a2[1]);
             }
         });
         
