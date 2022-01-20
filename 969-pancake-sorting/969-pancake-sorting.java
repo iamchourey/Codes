@@ -9,9 +9,10 @@ class Solution {
             
             if(maxIndex!=i){
                 
-                reverse(arr,0,maxIndex);
-                ls.add(maxIndex+1);
-                
+                if(maxIndex!=0){
+                    reverse(arr,0,maxIndex);
+                    ls.add(maxIndex+1);
+                }
                 reverse(arr,0,i);
                 ls.add(i+1);
             }
