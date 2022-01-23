@@ -3,18 +3,19 @@ class Solution {
         
         List<Integer> ls=new ArrayList<>();
         
-        int[] sequentials={12,23,34,45,56,67,78,89,123,234,345,456,567,678,789,1234,2345,3456,4567,5678,6789,12345,23456,34567,45678,56789,123456,234567,345678,456789,1234567,2345678,3456789,12345678,23456789,123456789};
-        
-        for(int num:sequentials){
+        for(int digit=1;digit<10;digit++){
             
-            if(num<low)
-                continue;
-            if(num>high)
-                break;
+            int nextDigit=digit,n=digit;
             
-            ls.add(num);
+            while(n<=high && nextDigit<10){
+                if(n>=low)
+                    ls.add(n);
+                
+                n=n*10 + ++nextDigit;
+            }
         }
         
+        Collections.sort(ls);
         return ls;
     }
 }
