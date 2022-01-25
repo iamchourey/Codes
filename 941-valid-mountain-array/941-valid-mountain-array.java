@@ -4,24 +4,19 @@ class Solution {
         if(arr.length<3)
             return false;
         
-        int index=0;
+        int i=0,j=arr.length-1;
         
-        while(index<arr.length-2 && arr[index+1]>arr[index]){
-            index++;
+        while(i<arr.length-1 && arr[i]<arr[i+1]){
+            i++;
         }
         
-        if(index==0 || index>=arr.length-1)
+        while(j>0 && arr[j-1]>arr[j]){
+            j--;
+        }
+        
+        if(i==0 || j==0 || i>=arr.length-1 || j>=arr.length-1)
             return false;
         
-        int end=arr.length-1;
-        
-        while(end>index){
-            if(arr[end-1]<=arr[end] || arr[end]>=arr[index])
-                return false;
-            
-            end--;
-        }
-        
-        return true;
+        return i==j;
     }
 }
