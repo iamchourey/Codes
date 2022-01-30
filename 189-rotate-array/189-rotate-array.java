@@ -9,15 +9,20 @@ class Solution {
             k-=n;
         }
         
-        for(int i=n-k;i<n;i++){
-            temp[index++]=nums[i];
-        }
-        for(int i=0;i<n-k;i++){
-            temp[index++]=nums[i];
-        }
+        reverse(nums,0,n-k-1);
+        reverse(nums,n-k,n-1);
+        reverse(nums,0,n-1);
+    }
+    
+    public void reverse(int[] nums,int start,int end){
         
-        for(int i=0;i<n;i++){
-            nums[i]=temp[i];
+        while(end>start){
+            int temp=nums[start];
+            nums[start]=nums[end];
+            nums[end]=temp;
+            
+            start++;
+            end--;
         }
     }
 }
