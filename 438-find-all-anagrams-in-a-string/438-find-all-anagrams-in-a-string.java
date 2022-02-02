@@ -23,11 +23,12 @@ class Solution {
         
         int window=p.length();
         int freq2[]=new int[26];
+        int n=s.length();
         
         for(int i=0;i<window;i++){
             freq2[s.charAt(i)-'a']++;
         }
-        for(int i=window;i<s.length();i++){
+        for(int i=window;i<n;i++){
             
             if(compare(freq,freq2))
                 ls.add(i-window);
@@ -37,7 +38,7 @@ class Solution {
         }
         
         if(compare(freq,freq2))
-            ls.add(s.length()-window);
+            ls.add(n-window);
         
         return ls;
     }
