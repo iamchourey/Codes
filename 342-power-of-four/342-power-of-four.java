@@ -3,14 +3,9 @@ class Solution {
         
         if(n==0)
             return false;
+        if(n==1)
+            return true;
         
-        while(n!=1){
-            
-            if(n%4!=0)
-                return false;
-            n/=4;
-        }
-        
-        return true;
+        return (n>0 && (n&(n-1))==0 && (n&(0x55555555))!=0);
     }
 }
