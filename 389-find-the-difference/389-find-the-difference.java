@@ -1,10 +1,14 @@
 class Solution {
     public char findTheDifference(String s, String t) {
         
+        char ch=0;
         for(char c:s.toCharArray()){
-            t=t.replaceFirst(Character.toString(c),"");
+            ch^=c;
+        }
+        for(char c:t.toCharArray()){
+            ch^=c;
         }
         
-        return t.charAt(0);
+        return ch;
     }
 }
