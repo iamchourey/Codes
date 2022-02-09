@@ -5,12 +5,21 @@ class Solution {
         int res=0;
         
         for(int num:nums){
-            hm.put(num,hm.getOrDefault(num,0)+1);
-        }
-        
-        for(int num:hm.keySet()){
-            if( (k>0 && hm.containsKey(num+k)) || (k==0 && hm.get(num)>1))
-                res++;
+            
+            if(hm.containsKey(num)){
+                if(k==0 && hm.get(num)==1)
+                    res++;
+                
+                hm.put(num,hm.get(num)+1);
+            }
+            else{
+                if(hm.containsKey(num-k))
+                    res++;
+                if(hm.containsKey(num+k))
+                    res++;
+                
+                hm.put(num,1);
+            }
         }
         
         return res;
