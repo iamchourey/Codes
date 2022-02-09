@@ -4,29 +4,19 @@ class Solution {
         Arrays.sort(nums);
         int res=0;
         
-        for(int start=0;start<nums.length-1;start++){
-            
-            if(start>0 && nums[start]==nums[start-1])
+        Map<Integer,Integer> hs=new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            hs.put(nums[i],i);
+        }
+        
+        for(int i=0;i<nums.length;i++){
+            if(i>0 && nums[i]==nums[i-1])
                 continue;
             
-            int i=start,j=nums.length-1;
-        
-           while(i<j){
-              if((nums[j]-nums[i])==k){
-                 res++;
-                 i++;
-                 j--;
-                 
-                 while(i<j && nums[i]==nums[i-1])
-                     i++;
-                 while(i<j && nums[j]==nums[j+1])
-                     j--;
-             }
-              else if((nums[j]-nums[i])>k)
-                  j--;
-              else
-                  i++;
-           }
+            if(hs.containsKey(k+nums[i]) && hs.get(k+nums[i])!=i){
+                res++;
+                hs.remove(k+nums[i]);
+            }
         }
         
         return res;
