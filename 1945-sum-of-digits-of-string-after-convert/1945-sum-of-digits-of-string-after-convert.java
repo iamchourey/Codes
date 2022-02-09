@@ -1,27 +1,29 @@
 class Solution {
     public int getLucky(String s, int k) {
         
-        StringBuilder str=new StringBuilder();
-        
-        for(char c:s.toCharArray()){
-            str.append(c-'a'+1);
-        }
-        
-        String string=str.toString();
-        
-        if(string.length()==1)
-            return Character.getNumericValue(string.charAt(0));
-        
         int res=0;
         
-        while(k-- >0 && string.length()>1){
-            
-            res=0;
-            for(char c:string.toCharArray()){
-                res+=Character.getNumericValue(c);
-            }
-            
-            string=String.valueOf(res);
+        for(char c:s.toCharArray()){
+            int temp=(int)c - 96;
+            res+=temp<10?temp:temp/10+temp%10;
+        }
+        
+        if(res<10)
+            return res;
+        k--;
+        while(k-- >0 && res>=10){
+            res=sumOfDigits(res);
+        }
+        
+        return res;
+    }
+    
+    public int sumOfDigits(int num){
+        int res=0;
+        
+        while(num>0){
+            res+=num%10;
+            num=num/10;
         }
         
         return res;
