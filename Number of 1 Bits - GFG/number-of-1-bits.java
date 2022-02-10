@@ -27,7 +27,8 @@ class Solution {
         
         while(N!=0){
             res++;
-            N=N&(N-1);
+            int mask= N & -N;
+            N-=mask;
         }
         
         return res;
