@@ -8,15 +8,15 @@ class Solution {
     
     public void helper(int[] nums,int index,List<List<Integer>> ls,List<Integer> curr){
         
-        if(index==nums.length){
-            if(!ls.contains(curr)){
-                ls.add(new ArrayList<>(curr));
-            }
-            return;
+        ls.add(new ArrayList<>(curr));
+        
+        for(int i=index;i<nums.length;i++){
+            if(i>index && nums[i]==nums[i-1])
+                continue;
+        
+            curr.add(nums[i]);
+            helper(nums,i+1,ls,curr);
+            curr.remove(curr.size()-1);
         }
-        helper(nums,index+1,ls,curr);
-        curr.add(nums[index]);
-        helper(nums,index+1,ls,curr);
-        curr.remove(curr.size()-1);
     }
 }
