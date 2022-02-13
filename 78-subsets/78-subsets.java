@@ -2,20 +2,18 @@ class Solution {
     public List<List<Integer>> subsets(int[] nums) {
         
         List<List<Integer>> ls=new ArrayList<>();
-        helper(nums,0,ls,new ArrayList<>());
+        int n=(int)Math.pow(2,nums.length);
+        
+        for(int i=0;i<n;i++){
+            
+            List<Integer> curr=new ArrayList<>();
+            for(int j=0;j<nums.length;j++){
+                if((i&(1<<j))==(1<<j))
+                    curr.add(nums[j]);
+            }
+            ls.add(curr);
+        }
         
         return ls;
-    }
-    
-    public void helper(int[] nums, int index,List<List<Integer>> ls,List<Integer> curr){
-        
-        if(index==nums.length){
-            ls.add(new ArrayList<>(curr));
-            return;
-        }
-        helper(nums,index+1,ls,curr);
-        curr.add(nums[index]);
-        helper(nums,index+1,ls,curr);
-        curr.remove(curr.size()-1);
     }
 }
