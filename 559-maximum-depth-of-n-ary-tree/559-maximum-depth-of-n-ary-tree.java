@@ -23,25 +23,11 @@ class Solution {
         if(root==null)
             return 0;
         
-        Queue<Node> q=new LinkedList<>();
-        q.offer(root);
-        q.offer(null);
-        int depth=1;
-        
-        while(q.size()>1){
-            Node curr=q.poll();
-            
-            if(curr==null){
-                depth++;
-                q.offer(null);
-                continue;
-            }
-            
-            for(Node child:curr.children){
-                q.offer(child);
-            }
+        int ans=1;
+        for(Node child:root.children){
+            ans=Math.max(ans,1+maxDepth(child));
         }
         
-        return depth;
+        return ans;
     }
 }
