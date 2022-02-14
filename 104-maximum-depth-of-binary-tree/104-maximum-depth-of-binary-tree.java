@@ -18,29 +18,6 @@ class Solution {
         
         if(root==null)
             return 0;
-        
-        Stack<TreeNode> st1=new Stack<>();
-        Stack<Integer> st2=new Stack<>();
-        int maxDepth=1;
-        st1.push(root);
-        st2.push(1);
-        
-        while(st1.isEmpty()==false){
-            TreeNode curr=st1.pop();
-            int depth=st2.pop();
-            
-            maxDepth=Math.max(maxDepth,depth);
-            
-            if(curr.left!=null){
-                st1.push(curr.left);
-                st2.push(depth+1);
-            }
-            if(curr.right!=null){
-                st1.push(curr.right);
-                st2.push(depth+1);
-            }
-        }
-        
-        return maxDepth;
+        return 1+Math.max(maxDepth(root.left),maxDepth(root.right));
     }
 }
