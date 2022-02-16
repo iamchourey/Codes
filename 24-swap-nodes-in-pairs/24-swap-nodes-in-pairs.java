@@ -14,13 +14,19 @@ class Solution {
         if(head==null || head.next==null)
             return head;
         
-        ListNode curr=head,next=head.next;
+        ListNode curr=head.next.next,prev=head;
+        head=head.next;
+        head.next=prev;
         
-        ListNode other=next.next;
-        next.next=curr;
-        curr.next=swapPairs(other);
-
+        while(curr!=null && curr.next!=null){
+            prev.next=curr.next;
+            prev=curr;
+            ListNode next=curr.next.next;
+            curr.next.next=curr;
+            curr=next;
+        }
+        prev.next=curr;
         
-        return next;
+        return head;
     }
 }
