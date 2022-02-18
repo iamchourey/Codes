@@ -21,8 +21,8 @@ class Solution {
             k--;
         }
         
-        if(st.isEmpty())
-            return "0";
+        //if(st.isEmpty())
+          //  return "0";
         
         char[] arr=new char[st.size()];
         int index=st.size()-1;
