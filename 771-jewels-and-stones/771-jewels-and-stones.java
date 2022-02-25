@@ -1,13 +1,12 @@
 class Solution {
     public int numJewelsInStones(String jewels, String stones) {
         
-        Set<Character> hs=new HashSet<>();
+        int chars[]=new int[128];
         int result=0;
+        for(char c:stones.toCharArray())
+            chars[c]++;
         for(char c:jewels.toCharArray())
-            hs.add(c);
-        for(char c:stones.toCharArray()){
-            if(hs.contains(c)) result++;
-        }
+            result+=chars[c];
         
         return result;
     }
