@@ -14,42 +14,24 @@
  * }
  */
 class Solution {
-    
-    public class Pair{
-        TreeNode treeNode=null;
-        int index=0;
-        
-        Pair(TreeNode t,int index){
-            this.treeNode=t;
-            this.index=index;
-        }
-    }
     public int widthOfBinaryTree(TreeNode root) {
+        return dfs(root,0,1,new ArrayList<Integer>(),new ArrayList<Integer>());
+    }
+    
+    public int dfs(TreeNode root,int level,int order,List<Integer> start,List<Integer> end){
         
-        if(root.left==null && root.right==null)
-            return 1;
+        if(root==null)
+            return 0;
         
-        LinkedList<Pair> q=new LinkedList<>();
-        int ans=0;
-        
-        q.add(new Pair(root,0));
-        
-        while(q.isEmpty()==false){
-            int size=q.size();
-            int lm=q.getFirst().index;
-            int rm=q.getFirst().index;
-            while(size-- >0){
-                Pair p=q.poll();
-                int i=p.index;
-                rm=p.index;
-                
-                if(p.treeNode.left!=null)
-                    q.add(new Pair(p.treeNode.left,i*2+1));
-                if(p.treeNode.right!=null)
-                    q.add(new Pair(p.treeNode.right,i*2+2));
-            }
-            ans=Math.max(ans,rm-lm+1);
+        if(start.size()==level){
+            start.add(order);
+            end.add(order);
         }
-        return ans;
+        else end.set(level,order);
+        
+        int max=end.get(level)-start.get(level)+1;
+        int left=dfs(root.left,level+1,2*order,start,end);
+        int right=dfs(root.right,level+1,2*order+1,start,end);
+        return Math.max(max,Math.max(left,right));
     }
 }
