@@ -59,18 +59,25 @@ class Solution{
         if(n==0 || n==1)
         return;
         
-        long nums[]=new long[n];
+        long maxValue=arr[n-1]+1;
+        int start=0,end=n-1;
         
         for(int i=0;i<n;i++){
-            nums[i]=arr[i];
+            
+            if(i%2==0){
+                long originalValue=arr[end]%maxValue;
+                arr[i]=maxValue*originalValue+arr[i];
+                end--;
+            }
+            else{
+                long originalValue=arr[start]%maxValue;
+                arr[i]=maxValue*originalValue+arr[i];
+                start++;
+            }
         }
         
-        int i=0,j=n-1;
-        
-        for(int k=0;k<n;){
-            arr[k++]=nums[j--];
-            if(k<n)
-            arr[k++]=nums[i++];
+        for(int i=0;i<n;i++){
+            arr[i]/=maxValue;
         }
         
     }
