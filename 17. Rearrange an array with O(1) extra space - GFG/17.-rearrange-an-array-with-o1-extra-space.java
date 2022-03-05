@@ -48,17 +48,12 @@ class Solution
     static void arrange(long arr[], int n)
     {
         // your code here
-        ArrayList<Long> list = new ArrayList<>();
-        
-        for(long e : arr){
-            list.add(e);
-        }
-        for(int i = 0; i< list.size(); i++){
-            long s = list.get(i);
-            int in = (int)s;
-            long exchange = list.get(in);
-            arr[i] = exchange;
-            // System.out.print(list.get(in) + " ");
-        }
-    }
+        int div = n+1;
+       for(int i = 0; i<n; i++){
+           arr[i] = (arr[(int)arr[i]]%div)*div + arr[i];
+       }
+       for(int i = 0; i<n; i++){
+           arr[i] /= div;
+       }
+   }
 }
