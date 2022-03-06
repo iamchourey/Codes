@@ -8,15 +8,20 @@ class Solution {
         if(max==1)
             return nums.length;
         
-        int dp[]=new int[max+1];
+        int freq[]=new int[max+1];
         
-        for(int i=0;i<nums.length;i++)
-            dp[nums[i]]+=nums[i];
+        for(int num:nums)freq[num]++;
         
-        dp[dp.length-2]=Math.max(dp[dp.length-2],dp[dp.length-1]);
-        for(int i=dp.length-3;i>=0;i--)
-            dp[i]=Math.max(dp[i+1],dp[i]+dp[i+2]);
+        int include=0,exclude=0;
         
-        return dp[0];
+        for(int i=0;i<freq.length;i++){
+            int inc=freq[i]*i+exclude;
+            int exc=Math.max(include,exclude);
+            
+            include=inc;
+            exclude=exc;
+        }
+        
+        return Math.max(include,exclude);
     }
 }
