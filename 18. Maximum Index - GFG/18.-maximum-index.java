@@ -34,8 +34,13 @@ class Solution{
         int ans=Integer.MIN_VALUE;
         
         int i=0,j=N-1;
+        int minValue=Integer.MAX_VALUE;
         
         while(i<(N-1)){
+            
+            minValue=Math.min(minValue,A[i]);
+            if(A[i]<minValue)
+            i++;
             
             if(i==j){
                 i++;
