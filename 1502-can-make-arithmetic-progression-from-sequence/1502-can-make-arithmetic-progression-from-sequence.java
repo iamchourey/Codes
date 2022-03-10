@@ -1,12 +1,21 @@
 class Solution {
     public boolean canMakeArithmeticProgression(int[] arr) {
         
-        Arrays.sort(arr);
-        if(arr.length==2) return true;
-        int cd=arr[1]-arr[0];
+        Set<Integer> hs=new HashSet<>();
+        int min=Integer.MAX_VALUE,max=Integer.MIN_VALUE;
+        int n=arr.length;
+        for(int i=0;i<n;i++){
+            min=Math.min(min,arr[i]);
+            max=Math.max(max,arr[i]);
+            hs.add(arr[i]);
+        }
+        if((max-min)%(n-1)!=0) return false;
         
-        for(int i=2;i<arr.length;i++){
-            if((arr[i]-arr[i-1])!=cd) return false;
+        int cd=(max-min)/(n-1);
+        if(cd==0) return true;
+        while(min<=max){
+            if(!hs.contains(min)) return false;
+            min+=cd;
         }
         return true;
     }
