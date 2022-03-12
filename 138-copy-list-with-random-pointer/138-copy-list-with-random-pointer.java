@@ -17,7 +17,7 @@ class Solution {
     public Node copyRandomList(Node head) {
         Map<Node,Node> hm=new HashMap<>();
         Node curr=head,dummy=new Node(-1),prev=dummy;
-        
+        hm.put(null,null);
         while(curr!=null){
             prev.next=new Node(curr.val);
             hm.put(curr,prev.next);
