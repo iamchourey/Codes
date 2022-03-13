@@ -5,12 +5,12 @@ class Solution {
         for(int pile:piles)  max=Math.max(max,pile);
         if(h==n) return max;
         int start=1,end=max;
-        while(start<end){
+        while(start<=end){
             int mid=(start+end)/2;
             int hours=0;
             for(int pile:piles) hours+=(pile+mid-1)/mid;
             if(hours>h) start=mid+1;
-            else end=mid;
+            else end=mid-1;
         }
         return start;
     }
