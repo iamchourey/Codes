@@ -20,7 +20,7 @@ class Solution {
         });
         for(int i=0;i<mat.length;i++){
             int sols=0;
-            for(int j=0;j<mat[i].length && mat[i][j]!=0;j++) sols+=mat[i][j];
+            for(int j=0;j<mat[i].length && mat[i][j]!=0;j++) sols++;
             pq.add(new soldiers(sols,i));
         }
         for(int idx=0;idx<k;idx++){
