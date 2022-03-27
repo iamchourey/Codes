@@ -10,24 +10,22 @@ class Solution {
     }
     public int[] kWeakestRows(int[][] mat, int k) {
         
-        int rows=mat.length,cols=mat[0].length;
-        int res[]=new int[rows];
+        int res[]=new int[k];
         
-        for(int i=0;i<rows;i++){
-            int j=0;
-            for(;j<cols;j++){
-                if(mat[i][j]==0) break;
+        PriorityQueue<soldiers> pq=new PriorityQueue<>(new Comparator<soldiers>(){
+            public int compare(soldiers s1,soldiers s2){
+                if(s1.soldiers==s2.soldiers) return s1.index-s2.index;
+                else return s1.soldiers-s2.soldiers;
             }
-            
-            res[i]=j*rows+i;
+        });
+        for(int i=0;i<mat.length;i++){
+            int sols=0;
+            for(int j=0;j<mat[i].length;j++) sols+=mat[i][j];
+            pq.add(new soldiers(sols,i));
         }
-        Arrays.sort(res);
-        int ans[]=new int[k];
-        
-        for(int i=0;i<k;i++){
-            ans[i]=res[i]%rows;
+        for(int idx=0;idx<k;idx++){
+            res[idx]=pq.poll().index;
         }
-        
-        return ans;
+        return res;
     }
 }
