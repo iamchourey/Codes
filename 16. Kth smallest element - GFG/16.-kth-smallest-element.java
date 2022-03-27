@@ -44,15 +44,32 @@ class Solution
     public static int kthSmallest(int arr[], int n, int k)
     {
         // Your code here
-        PriorityQueue<Integer> pq=new PriorityQueue<>(Collections.reverseOrder());
-        for(int i=0;i<k;i++) pq.add(arr[i]);
+        int low=0,high=n-1,index=-1;
         
-        for(int i=k;i<n;i++){
-            if(pq.peek()>arr[i]){
-                pq.poll();
-                pq.add(arr[i]);
+        while(low<=high){
+            index=partition(arr,low,high);
+            if(index==(k-1)) return arr[index];
+            else if(index>(k-1)) high=index-1;
+            else low=index+1;
+        }
+        return -1;
+    }
+    public static int partition(int[] arr,int low,int high){
+        int pivot=arr[high],index=low-1;
+        
+        for(int i=low;i<high;i++){
+            if(arr[i]<pivot){
+                index++;
+                int temp=arr[i];
+                arr[i]=arr[index];
+                arr[index]=temp;
             }
         }
-        return pq.poll();
+        index++;
+        int temp=arr[high];
+        arr[high]=arr[index];
+        arr[index]=temp;
+        
+        return index;
     }
 }
