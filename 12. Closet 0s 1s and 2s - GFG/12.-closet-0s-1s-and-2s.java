@@ -40,6 +40,24 @@ class Solution
     //Function to segregate 0s, 1s and 2s in sorted increasing order.
     public static void segragate012(int arr[], int N){
         // Your Code Here
-        Arrays.sort(arr);
+        int zeroes=0,ones=0,twos=N-1;
+        
+        while(ones<=twos){
+            if(arr[ones]==0){
+                swap(arr,zeroes,ones);
+                ones++;
+                zeroes++;
+            }
+            else if(arr[ones]==1) ones++;
+            else{
+                swap(arr,ones,twos);
+                twos--;
+            }
+        }
+    }
+    public static void swap(int[] arr,int i,int j){
+        int temp=arr[i];
+        arr[i]=arr[j];
+        arr[j]=temp;
     }
 }
