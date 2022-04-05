@@ -11,8 +11,12 @@ class Solution {
         {
             if(height[start]<height[end])
                 start++;
-            else
+            else if(height[start]>height[end])
                 --end;
+            else{
+                start++;
+                end--;
+            }
             
             water=Math.min(height[start],height[end])*(end-start);
             
