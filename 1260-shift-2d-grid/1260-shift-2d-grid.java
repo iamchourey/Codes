@@ -8,7 +8,7 @@ class Solution {
                 temp[index++]=grid[i][j];
             }
         }
-        while(k>(m*n)) k-=m*n;
+        k%=m*n;
         reverse(temp,0,m*n-1);
         reverse(temp,0,k-1);
         reverse(temp,k,m*n-1);
