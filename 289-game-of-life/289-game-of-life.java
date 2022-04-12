@@ -1,39 +1,35 @@
 class Solution {
     public void gameOfLife(int[][] board) {
+        
         int m=board.length,n=board[0].length;
-        int res[][]=new int[m][n];
         
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                int lives=getLive(board,i,j);
-                if(board[i][j]==1){
-                    if(lives<2) res[i][j]=0;
-                    else if(lives==2 || lives==3) res[i][j]=1;
-                    else res[i][j]=0;
-                }
-                else{
-                    if(lives==3) res[i][j]=1;
-                    else res[i][j]=0;
-                }
+                int lives=getLives(board,i,j);
+                if(board[i][j]==1 && (lives==2 || lives==3)) board[i][j]=3;
+                else if(board[i][j]==0 && lives==3) board[i][j]=2;
             }
         }
+        
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                board[i][j]=res[i][j];
+                board[i][j]>>=1;
             }
         }
     }
     
-    public int getLive(int[][] board,int i,int j){
+    public int getLives(int [][]board,int i,int j){
         
-        int lives=getLives(board,i-1,j)+getLives(board,i-1,j-1)+getLives(board,i-1,j+1)+getLives(board,i,j-1)+getLives(board,i,j+1)+getLives(board,i+1,j)+getLives(board,i+1,j-1)+getLives(board,i+1,j+1);
+        int lives=get(board,i-1,j)+get(board,i-1,j-1)+get(board,i-1,j+1)+
+            get(board,i,j-1)+get(board,i,j+1)+get(board,i+1,j)+get(board,i+1,j-1)+
+            get(board,i+1,j+1);
         
         return lives;
     }
     
-    public int getLives(int[][] board,int i,int j){
-        if(i<0 || i>=board.length || j<0 || j>=board[0].length) return 0;
+    public int get(int [][]board,int i,int j){
+        if(i<0 || j<0 || i>=board.length || j>=board[0].length) return 0;
         
-        return board[i][j];
+        return  board[i][j]&1;
     }
 }
