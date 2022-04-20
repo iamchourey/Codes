@@ -15,33 +15,37 @@
  */
 class BSTIterator {
     
-    List<Integer> ls;
-    int pointer;
+    Stack<TreeNode> st;
 
     public BSTIterator(TreeNode root) {
-        ls=new ArrayList<>();
-        ls.add(-1);
-        pointer=0;
+        st=new Stack<>();
+        st.push(new TreeNode(-1));
         
-        inorder(root,ls);
-        
-    }
-    
-    public void inorder(TreeNode root,List<Integer> ls){
-        if(root!=null){
-            inorder(root.left,ls);
-            ls.add(root.val);
-            inorder(root.right,ls);
+        while(root!=null){
+            st.push(root);
+            root=root.left;
         }
+        
     }
     
     public int next() {
-        pointer++;
-        return ls.get(pointer);
+        TreeNode temp=st.pop();
+        int ans=temp.val;
+        
+        if(temp.right!=null){
+            temp=temp.right;
+            while(temp!=null){
+                st.push(temp);
+                temp=temp.left;
+            }
+        }
+        
+        return ans;
+        
     }
     
     public boolean hasNext() {
-        return !(pointer==ls.size()-1);
+        return st.size()>1;
     }
 }
 
