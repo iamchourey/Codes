@@ -46,12 +46,15 @@ class Solution
         // Code here
         Queue<Node> q=new LinkedList<>();
         int m=grid.length,n=grid[0].length;
-        int resultTime=-1;
+        int resultTime=-1,count1=0;
         int[][] dirs=new int[][]{{-1,0},{1,0},{0,-1},{0,1}};
         
         for(int i=0;i<grid.length;i++){
             for(int j=0;j<grid[i].length;j++){
-                if(grid[i][j]==2) q.add(new Node(0,i,j));
+                if(grid[i][j]==2){
+                    q.add(new Node(0,i,j));
+                }
+                if(grid[i][j]==1) count1++;
             }
         }
         
@@ -68,17 +71,13 @@ class Solution
                 if(newX>=0 && newX<m && newY>=0 && newY<n && grid[newX][newY]==1){
                     q.add(new Node(currTime+1,newX,newY));
                     grid[newX][newY]=2;
+                    count1--;
                 }
             }
             
             resultTime=Math.max(resultTime,currTime);
         }
-        
-        for(int i=0;i<grid.length;i++){
-            for(int j=0;j<grid[i].length;j++){
-                if(grid[i][j]==1) return -1;
-            }
-        }
+        if(count1!=0) return -1;
         
         return resultTime;
     }
