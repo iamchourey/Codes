@@ -1,7 +1,7 @@
 class Solution {
     public int maxDistance(int[][] grid) {
         int m=grid.length,n=grid[0].length;
-        int lands=0,waters=0;
+        int lands=0;
         Queue<int[]> q=new LinkedList<>();
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
@@ -9,10 +9,9 @@ class Solution {
                     lands++;
                     q.add(new int[]{i,j});
                 }
-                else waters++;
             }
         }
-        if(lands==0 || waters==0) return -1;
+        if(lands==m*n) return -1;
         int[][] dirs=new int[][]{{-1,0},{1,0},{0,1},{0,-1}};
         int distance=-1;
         while(q.isEmpty()==false){
