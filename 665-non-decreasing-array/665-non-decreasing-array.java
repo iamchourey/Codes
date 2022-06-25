@@ -1,32 +1,17 @@
 class Solution {
     public boolean checkPossibility(int[] nums) {
-        int lis=getLis(nums);
-        return nums.length-lis <=1;
-    }
-    
-    public int getLis(int[] nums){
-        int index=0;
-        int[] temp=new int[nums.length];
-        temp[0]=nums[0];
+        int lis=1;
+        int[] dp=new int[nums.length];
+        
+        dp[0]=1;
         for(int i=1;i<nums.length;i++){
-            if(nums[i]>=temp[index]){
-                index++;
-                temp[index]=nums[i];
+            dp[i]=1;
+            for(int j=i-1;j>=0;j--){
+                if(nums[j]<=nums[i]) dp[i]=Math.max(dp[i],1+dp[j]);
             }
-            else{
-                int idx=binarySearch(temp,nums[i],index);
-                temp[idx]=nums[i];
-            }
+            lis=Math.max(dp[i],lis);
         }
-        return index+1;
-    }
-    public int binarySearch(int[] nums,int num,int end){
-        int start=0;
-        while(start<end){
-            int mid=start+(end-start)/2;
-            if(nums[mid]<=num) start=mid+1;
-            else end=mid;
-        }
-        return end;
+        
+        return (nums.length-lis)<=1;
     }
 }
