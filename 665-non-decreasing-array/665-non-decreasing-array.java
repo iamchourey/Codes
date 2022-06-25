@@ -1,17 +1,28 @@
 class Solution {
     public boolean checkPossibility(int[] nums) {
-        int lis=1;
-        int[] dp=new int[nums.length];
         
-        dp[0]=1;
+        int prev=nums[0],modify=0;
         for(int i=1;i<nums.length;i++){
-            dp[i]=1;
-            for(int j=i-1;j>=0;j--){
-                if(nums[j]<=nums[i]) dp[i]=Math.max(dp[i],1+dp[j]);
+            if(nums[i]>=prev) prev=nums[i];
+            else{
+                modify++;
+                if(modify>1) break;
             }
-            lis=Math.max(dp[i],lis);
         }
+        if(modify<=1) return true;
         
-        return (nums.length-lis)<=1;
+        int next=nums[nums.length-1];
+        modify=0;
+        
+        for(int i=nums.length-2;i>=0;i--){
+            if(nums[i]<=next) next=nums[i];
+            else{
+                modify++;
+                if(modify>1) break;
+            }
+        }
+        if(modify<=1) return true;
+        
+        return false;
     }
 }
