@@ -1,17 +1,17 @@
-class Pair{
-    int val;
-    int index;
-    
-    public Pair(int val,int i){
-        this.val=val;
-        this.index=i;
-    }
-}
 class Solution {
+    class Pair{
+        int val,index;
+        public Pair(int v,int i){
+            this.val=v;
+            this.index=i;
+        }
+    }
     public int maxResult(int[] nums, int k) {
+        
         int n=nums.length;
-        int[] dp=new int[n];
+        int dp[]=new int[n];
         Arrays.fill(dp,Integer.MIN_VALUE);
+        
         PriorityQueue<Pair> pq=new PriorityQueue<>(new Comparator<Pair>(){
             public int compare(Pair p1,Pair p2){
                 return p2.val-p1.val;
@@ -25,6 +25,7 @@ class Solution {
             dp[i]=nums[i]+pq.peek().val;
             pq.add(new Pair(dp[i],i));
         }
+        
         return dp[n-1];
     }
 }
