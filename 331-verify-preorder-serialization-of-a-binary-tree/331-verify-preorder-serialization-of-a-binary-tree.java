@@ -4,20 +4,21 @@ class Solution {
         if(preorder.length()==1) return preorder.charAt(0)=='#';
         if(preorder.charAt(0)=='#') return false;
         
-        int nodes=2;
+        Stack<String> stack=new Stack<>();
+        String[] nodes=preorder.split(",");
         
-        for(int i=1;i<preorder.length();i++){
-            char c=preorder.charAt(i);
-            
-            if(c==',') continue;
-            if(c!='#'){
-                while(i<preorder.length() && preorder.charAt(i)!=',') i++;
-                nodes+=2;
+        for(String node:nodes){
+            if(node.equals("#")){
+                while(stack.isEmpty()==false && stack.peek().equals("#")){
+                    stack.pop();
+                    if(stack.isEmpty()) return false;
+                    stack.pop();
+                }
+                stack.push(node);
             }
-            
-            nodes--;
-            if(i!=preorder.length()-1 && nodes<=0) return false;
+            else stack.push(node);
         }
-        return nodes==0;
+        
+        return stack.size()==1 && stack.peek().equals("#");
     }
 }
