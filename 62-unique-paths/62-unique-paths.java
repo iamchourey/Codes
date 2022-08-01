@@ -1,15 +1,17 @@
 class Solution {
     public int uniquePaths(int m, int n) {
-        int memo[][]=new int[m+1][n+1];
-        for(int i=0;i<=m;i++){
-            Arrays.fill(memo[i],-1);
+        
+        int dp[][]=new int[m+1][n+1];
+        //dp[m][n]=1;
+        
+        for(int i=m;i>=0;i--){
+            for(int j=n;j>=0;j--){
+                if(i==m || j==n) dp[i][j]=1;
+                else{
+                    dp[i][j]=dp[i+1][j]+dp[i][j+1];
+                }
+            }
         }
-        return helper(m,n,memo);
-    }
-    
-    public int helper(int m,int n,int[][] dp){
-        if(m==1 || n==1) return dp[m][n]=1;
-        if(dp[m][n]!=-1) return dp[m][n];
-        return dp[m][n]=helper(m-1,n,dp)+helper(m,n-1,dp);
+        return dp[1][1];
     }
 }
