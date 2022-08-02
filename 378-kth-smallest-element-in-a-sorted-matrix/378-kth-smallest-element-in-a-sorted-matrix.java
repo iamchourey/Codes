@@ -1,14 +1,23 @@
 class Solution {
     public int kthSmallest(int[][] matrix, int k) {
         
-        PriorityQueue<Integer> pq=new PriorityQueue<>(Collections.reverseOrder());
         int n=matrix.length;
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                pq.add(matrix[i][j]);
-                if(pq.size()>k) pq.poll();
+        int low=matrix[0][0],high=matrix[n-1][n-1];
+        
+        while(low<high){
+            int mid=low+(high-low)/2;
+            int temp=n-1;
+            int count=0;
+            
+            for(int i=0;i<n;i++){
+                while(temp>=0 && matrix[i][temp]>mid) temp--;
+                count+=temp+1;
             }
+            
+            if(count<k) low=mid+1;
+            else high=mid;
         }
-        return pq.poll();
+        
+        return low;
     }
 }
