@@ -1,24 +1,23 @@
 class MyCalendar {
-    Map<Integer,Integer> bookings;
+    
+    TreeMap<Integer, Integer> map;
+    
     public MyCalendar() {
-        bookings=new TreeMap<>();
+        map = new TreeMap();
     }
     
     public boolean book(int start, int end) {
+        Integer smallerKey = map.floorKey(start), greaterKey = map.ceilingKey(start);
         
-        for(Map.Entry<Integer,Integer> entry:bookings.entrySet()){
-            int prevStart=entry.getKey();
-            int prevEnd=entry.getValue();
-            
-            if(start<prevEnd && end>prevStart) return false;
-            //if(start>=prevEnd) break;
-        }
-        
-        bookings.put(start,end);
-        return true;
+        if (smallerKey == null || map.get(smallerKey) <= start) {
+            if (greaterKey == null || greaterKey >= end) {
+                map.put(start, end);
+                return true;
+            }
+        } 
+        return false;
     }
 }
-
 /**
  * Your MyCalendar object will be instantiated and called as such:
  * MyCalendar obj = new MyCalendar();
