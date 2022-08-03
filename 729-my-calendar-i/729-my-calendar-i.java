@@ -1,7 +1,7 @@
 class MyCalendar {
     Map<Integer,Integer> bookings;
     public MyCalendar() {
-        bookings=new HashMap<>();
+        bookings=new TreeMap<>();
     }
     
     public boolean book(int start, int end) {
@@ -11,6 +11,7 @@ class MyCalendar {
             int prevEnd=entry.getValue();
             
             if(start<prevEnd && end>prevStart) return false;
+            //if(start>=prevEnd) break;
         }
         
         bookings.put(start,end);
