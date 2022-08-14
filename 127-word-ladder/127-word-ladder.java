@@ -1,58 +1,44 @@
 class Solution {
+    
+    class Pair{
+        String word;
+        int level;
+        
+        public Pair(String word,int level){
+            this.word=word;
+            this.level=level;
+        }
+    }
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         
-        Set<String> s=new HashSet<>();
-        boolean present=false;
+        Set<String> set=new HashSet<>();
+        for(String s:wordList) set.add(s);
         
-        for(int i=0;i<wordList.size();i++){
-            String str=wordList.get(i);
+        Queue<Pair> queue=new LinkedList<>();
+        queue.add(new Pair(beginWord,1));
+        
+        while(queue.isEmpty()==false){
+            Pair p=queue.poll();
+            String word=p.word;
+            int level=p.level;
             
-            if(str.compareTo(endWord)==0)
-                present=true;
+            if(word.equals(endWord)) return level;
             
-            s.add(str);
-        }
-        
-        if(!present)
-            return 0;
-        
-        Queue<String> q=new LinkedList<>();
-        q.add(beginWord);
-        int depth=0;
-        int len=beginWord.length();
-        
-        while(q.isEmpty()==false)
-        {
-            depth++;
-            int lnode=q.size();
-            
-            for(int i=0;i<lnode;i++)
-            {
-                String curr=q.poll();
-                
-                for(int j=0;j<len;j++)
-                {
-                    String temp=curr;
-                    char[] ch=temp.toCharArray();
+            char[] wordchars=word.toCharArray();
+            for(int i=0;i<wordchars.length;i++){
+                char prev=wordchars[i];
+                for(char c='a';c<='z';c++){
+                    wordchars[i]=c;
                     
-                    for(char c='a';c<='z';c++){
-                        ch[j]=c;
-                        
-                        temp=new String(ch);
-                        
-                        if(temp.compareTo(curr)==0)
-                            continue;
-                        if(temp.compareTo(endWord)==0)
-                            return depth+1;
-                        if(s.contains(temp)){
-                            q.add(temp);
-                            s.remove(temp);
-                        }
+                    String newWord=new String(wordchars);
+                    if(set.contains(newWord)){
+                        queue.add(new Pair(newWord,level+1));
+                        set.remove(newWord);
                     }
                 }
+                wordchars[i]=prev;
             }
         }
-        
         return 0;
     }
 }
