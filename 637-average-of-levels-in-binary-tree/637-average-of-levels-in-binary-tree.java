@@ -19,28 +19,22 @@ class Solution {
         List<Double> result=new ArrayList<>();
         if(root==null) return result;
         Queue<TreeNode> queue=new LinkedList<>();
-        double nodes=0,sum=0;
-        
         queue.add(root);
-        queue.add(null);
         
-        while(queue.size()>1){
-            TreeNode curr=queue.poll();
-            if(curr==null){
-                queue.add(null);
-                result.add(sum/nodes);
-                sum=0;
-                nodes=0;
-                continue;
-            }
-            sum+=(double)curr.val;
-            nodes++;
+        while(queue.isEmpty()==false){
+            int size=queue.size();
+            double sum=0,nodes=0;
             
-            if(curr.left!=null) queue.add(curr.left);
-            if(curr.right!=null) queue.add(curr.right);
+            while(size-->0){
+                TreeNode curr=queue.poll();
+                sum+=(double)curr.val;
+                nodes++;
+                
+                if(curr.left!=null) queue.add(curr.left);
+                if(curr.right!=null) queue.add(curr.right);
+            }
+            result.add(sum/nodes);
         }
-        result.add(sum/nodes);
-        
         return result;
     }
 }
