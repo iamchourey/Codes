@@ -1,56 +1,53 @@
 class Solution {
     public List<List<Integer>> palindromePairs(String[] words) {
+        HashMap<String,Integer> wordMap = new HashMap<>();
+        Set<Integer> set = new TreeSet<>();
+        int n = words.length;
         
-        List<List<Integer>> result=new ArrayList<>();
-        Map<String,Integer> map=new HashMap<>();
-        
-        for(int i=0;i<words.length;i++){
-            map.put(words[i],i);
+        for(int i=0;i<n;i++){
+            wordMap.put(words[i],i);
+            set.add(words[i].length());
         }
         
-        int indexOfBlank=-1;
-        if(map.containsKey("")){
-            indexOfBlank=map.get("");
-        }
+        List<List<Integer>> ans = new ArrayList<>();
         
-        for(int i=0;i<words.length;i++){
-            String word=words[i];
+        for(int i=0;i<n;i++){
+            int length = words[i].length();
             
-            if(indexOfBlank!=-1 && indexOfBlank!=i && isPalinDrome(word)){
-                    result.add(Arrays.asList(i,indexOfBlank));
-                    result.add(Arrays.asList(indexOfBlank,i));
+            if(length ==1){
+                if(wordMap.containsKey("")){
+                    ans.add(Arrays.asList(i, wordMap.get("")));
+                    ans.add(Arrays.asList(wordMap.get(""), i));
                 }
-            
-            String reverseWord=new StringBuilder(word).reverse().toString();
-            if(map.containsKey(reverseWord) && map.get(reverseWord)!=i){
-                result.add(Arrays.asList(i,map.get(reverseWord)));
+                continue;
             }
+            String reverse= new StringBuilder(words[i]).reverse().toString();
+            if(wordMap.containsKey(reverse) && wordMap.get(reverse) != i)
+                ans.add(Arrays.asList(i,wordMap.get(reverse)));
             
-            for(int cut=1;cut<word.length();cut++){
-                String left=word.substring(0,cut);
-                String right=word.substring(cut);
+            for(Integer k:set){
+                if(k==length)
+                    break;
+                if(isPalindrome(reverse,0,length-1-k)){
+                    String s1 = reverse.substring(length-k);
+                    if(wordMap.containsKey(s1))
+                        ans.add(Arrays.asList(i,wordMap.get(s1)));
+                }
                 
-                if(isPalinDrome(left)){
-                    String reverseRight=new StringBuilder(right).reverse().toString();
-                    if(map.containsKey(reverseRight))
-                        result.add(Arrays.asList(map.get(reverseRight),i));
-                }
-                if(isPalinDrome(right)){
-                    String reverseLeft=new StringBuilder(left).reverse().toString();
-                    if(map.containsKey(reverseLeft))
-                        result.add(Arrays.asList(i,map.get(reverseLeft)));
+                if(isPalindrome(reverse,k,length-1)){
+                    String s2 = reverse.substring(0,k);
+                    if(wordMap.containsKey(s2))
+                        ans.add(Arrays.asList(wordMap.get(s2),i));
                 }
             }
         }
-        
-        return result;
+        return ans;
     }
     
-    public boolean isPalinDrome(String word){
-        int start=0,end=word.length()-1;
-        while(start<end){
-            if(word.charAt(start++)!=word.charAt(end--)) return false;
-        }
+    private boolean isPalindrome(String s, int left, int right){
+        while(left<right)
+            if(s.charAt(left++)!=s.charAt(right--))
+                return false;
         return true;
     }
 }
