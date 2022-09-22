@@ -10,23 +10,15 @@
  */
 class Solution {
     public ListNode swapPairs(ListNode head) {
-        
-        if(head==null || head.next==null)
-            return head;
-        
-        ListNode curr=head.next.next,prev=head;
-        head=head.next;
-        head.next=prev;
-        
-        while(curr!=null && curr.next!=null){
-            prev.next=curr.next;
-            prev=curr;
-            ListNode next=curr.next.next;
-            curr.next.next=curr;
-            curr=next;
-        }
-        prev.next=curr;
-        
-        return head;
+        if(head==null || head.next==null) return head;
+        return helper(head,head.next);
+    }
+    public ListNode helper(ListNode first,ListNode second){
+        if(first==null && second==null) return null;
+        else if(second==null) return first;
+        ListNode next=second.next;
+        second.next=first;
+        first.next=next==null?null:helper(next,next.next);
+        return second;
     }
 }
