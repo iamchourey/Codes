@@ -23,11 +23,17 @@ class Solution {
         if(root==null) return;
         if(root.left==null && root.right==null && root.val==target){
             curr.add(root.val);
-            result.add(curr);
+            result.add(new ArrayList<>(curr));
             return;
         }
         curr.add(root.val);
-        getPaths(root.left,target-root.val,result,new ArrayList<>(curr));
-        getPaths(root.right,target-root.val,result,new ArrayList<>(curr));
+        if(root.left!=null){
+            getPaths(root.left,target-root.val,result,curr);
+            curr.remove(curr.size()-1);
+        }
+        if(root.right!=null){
+            getPaths(root.right,target-root.val,result,curr);
+            curr.remove(curr.size()-1);
+        }
     }
 }
