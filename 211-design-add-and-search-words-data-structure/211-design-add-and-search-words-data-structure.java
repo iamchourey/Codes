@@ -1,42 +1,46 @@
-public class WordDictionary {
-    public class TrieNode {
-        public TrieNode[] children = new TrieNode[26];
-        public String item = "";
+class WordDictionary {
+    class Trie{
+        Trie[] children;
+        boolean isEnd;
+        
+        public Trie(){
+            children=new Trie[26];
+            isEnd=false;
+        }
+    }
+    Trie root;
+    public WordDictionary() {
+        root=new Trie();
     }
     
-    private TrieNode root = new TrieNode();
-
     public void addWord(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            if (node.children[c - 'a'] == null) {
-                node.children[c - 'a'] = new TrieNode();
-            }
-            node = node.children[c - 'a'];
+        Trie temp=root;
+        for(char letter:word.toCharArray()){
+            if(temp.children[letter-'a']==null) temp.children[letter-'a']=new Trie();
+            temp=temp.children[letter-'a'];
         }
-        node.item = word;
-    }
-
-    public boolean search(String word) {
-        return match(word.toCharArray(), 0, root);
+        temp.isEnd=true;
     }
     
-    private boolean match(char[] chs, int k, TrieNode node) {
-        if (k == chs.length) return !node.item.equals("");   
-        if (chs[k] != '.') {
-            return node.children[chs[k] - 'a'] != null && match(chs, k + 1, node.children[chs[k] - 'a']);
-        } else {
-            for (int i = 0; i < node.children.length; i++) {
-                if (node.children[i] != null) {
-                    if (match(chs, k + 1, node.children[i])) {
-                        return true;
-                    }
-                }
+    public boolean search(String word) {
+        return match(word.toCharArray(),0,root);
+    }
+    
+    public boolean match(char[] word,int index,Trie node){
+        if(index==word.length) return node.isEnd;
+        char c = word[index];
+        if(c=='.'){
+            for(int i=0;i<26;i++){
+                if(node.children[i]!=null && match(word,index+1,node.children[i])) return true;
             }
+            return false;
         }
-        return false;
+        else{
+            return node.children[c-'a']!=null && match(word,index+1,node.children[c-'a']);
+        }
     }
 }
+
 /**
  * Your WordDictionary object will be instantiated and called as such:
  * WordDictionary obj = new WordDictionary();
