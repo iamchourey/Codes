@@ -1,12 +1,13 @@
 class Solution {
     public int numDecodings(String s) {
         int memo[]=new int[s.length()];
+        Arrays.fill(memo,-1);
         return helper(s,0,memo);
     }
     
     public int helper(String s,int index,int[] memo){
         if(index>=s.length()) return 1;
-        if(memo[index]!=0) return memo[index];
+        if(memo[index]!=-1) return memo[index];
         if(s.charAt(index)=='0') return 0;
         int ways=0;
         if(s.charAt(index)=='1' && index<s.length()-1)
