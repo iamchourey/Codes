@@ -1,20 +1,16 @@
 class Solution {
     public int numDecodings(String s) {
-        int memo[]=new int[s.length()];
-        Arrays.fill(memo,-1);
-        return helper(s,0,memo);
-    }
-    
-    public int helper(String s,int index,int[] memo){
-        if(index>=s.length()) return 1;
-        if(memo[index]!=-1) return memo[index];
-        if(s.charAt(index)=='0') return 0;
-        int ways=0;
-        if(s.charAt(index)=='1' && index<s.length()-1)
-            ways+=helper(s,index+2,memo);
-        if(s.charAt(index)=='2' && index<s.length()-1 && s.charAt(index+1)<'7')
-            ways+=helper(s,index+2,memo);
-        ways+=helper(s,index+1,memo);
-        return memo[index] = ways;
+        int memo[]=new int[s.length()+1];
+        memo[0]=1;
+        memo[1]=(s.charAt(0)=='0')?0:1;
+        
+        for(int i=1;i<s.length();i++){
+            int singleDigit=s.charAt(i)-'0';
+            int doubleDigit=(s.charAt(i-1)-'0')*10+s.charAt(i)-'0';
+            
+            if(singleDigit!=0) memo[i+1]+=memo[i];
+            if(doubleDigit>=10 && doubleDigit<=26) memo[i+1]+=memo[i-1];
+        }
+        return memo[s.length()];
     }
 }
