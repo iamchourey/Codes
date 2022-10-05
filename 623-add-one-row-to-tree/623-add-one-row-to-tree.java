@@ -15,37 +15,26 @@
  */
 class Solution {
     public TreeNode addOneRow(TreeNode root, int val, int depth) {
-        
-        if(root==null) return new TreeNode(val);
+        if(root==null) return null;
         if(depth==1){
-            TreeNode newNode=new TreeNode(val);
-            newNode.left=root;
-            return newNode;
+            TreeNode newRoot=new TreeNode(val);
+            newRoot.left=root;
+            return newRoot;
         }
-        
-        Queue<TreeNode> queue=new LinkedList<>();
-        int currDepth=1;
-        queue.add(root);
-        
-        while(queue.isEmpty()==false){
-            int size=queue.size();
-            while(size-->0){
-                TreeNode curr=queue.poll();
-                if(currDepth==depth-1){
-                    TreeNode left=curr.left;
-                    TreeNode right=curr.right;
-                    curr.left=new TreeNode(val);
-                    curr.right=new TreeNode(val);
-                    curr.left.left=left;
-                    curr.right.right=right;
-                }else{
-                    if(curr.left!=null) queue.add(curr.left);
-                    if(curr.right!=null) queue.add(curr.right);
-                }
-            }
-            if(currDepth==depth-1) break;
-            currDepth++;
+        return helper(root,val,depth);
+    }
+    public TreeNode helper(TreeNode root,int val,int depth){
+        if(root==null || depth<2) return root;
+        if(depth==2){
+            TreeNode left=root.left;
+            TreeNode right=root.right;
+            root.left=new TreeNode(val);
+            root.right=new TreeNode(val);
+            root.left.left=left;
+            root.right.right=right;
         }
+        root.left=helper(root.left,val,depth-1);
+        root.right=helper(root.right,val,depth-1);
         return root;
     }
 }
