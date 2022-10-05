@@ -21,11 +21,11 @@ class Solution {
             newRoot.left=root;
             return newRoot;
         }
-        return helper(root,val,depth);
+        return helper(root,val,depth-1);
     }
     public TreeNode helper(TreeNode root,int val,int depth){
-        if(root==null || depth<2) return root;
-        if(depth==2){
+        if(root==null || depth<1) return root;
+        if(depth==1){
             TreeNode left=root.left;
             TreeNode right=root.right;
             root.left=new TreeNode(val);
