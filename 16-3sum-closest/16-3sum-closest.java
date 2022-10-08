@@ -12,6 +12,7 @@ class Solution {
             
             while(second<end){
                 int sum=nums[first]+nums[second]+nums[end];
+                if(sum==target) return sum;
                 if(Math.abs(target-sum)<closest) {
                     sumOfThree=sum;
                     closest=Math.abs(target-sum);
