@@ -1,23 +1,28 @@
 class MyCalendarTwo {
-    TreeMap<Integer,Integer> map;
+    List<List<Integer>> bookings;
+    List<List<Integer>> doubleBookings;
     public MyCalendarTwo() {
-        map=new TreeMap<>();
+        bookings=new ArrayList<>();
+        doubleBookings=new ArrayList<>();
     }
     
     public boolean book(int start, int end) {
-        map.put(start,map.getOrDefault(start,0)+1);
-        map.put(end,map.getOrDefault(end,0)-1);
-        int sum=0;
-        for(int val:map.values()){
-            sum+=val;
-            if(sum>=3){
-                map.put(start,map.get(start)-1);
-                if(map.get(start)==0) map.remove(start);
-                map.put(end,map.get(end)+1);
-                if(map.get(end)==0) map.remove(end);
-                return false;
+        
+        for(List<Integer> ls:doubleBookings){
+            if(start<ls.get(1) && end>ls.get(0)) return false;
+        }
+        for(List<Integer> ls:bookings){
+            if(start<ls.get(1) && end>ls.get(0)){
+                List<Integer> temp=new ArrayList<>();
+                temp.add(Math.max(start,ls.get(0)));
+                temp.add(Math.min(end,ls.get(1)));
+                doubleBookings.add(temp);
             }
         }
+        List<Integer> booking=new ArrayList<>();
+        booking.add(start);
+        booking.add(end);
+        bookings.add(booking);
         return true;
     }
 }
