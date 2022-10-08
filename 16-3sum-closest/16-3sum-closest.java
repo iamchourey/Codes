@@ -6,6 +6,7 @@ class Solution {
         int sumOfThree=0;
         
         for(int first=0;first<nums.length-2;first++){
+            if(first>0 && nums[first]==nums[first-1]) continue;
             int second=first+1;
             int end=nums.length-1;
             
