@@ -56,7 +56,7 @@ class Complete{
     // Function for finding maximum and value pair
     public static int maximizeSum (int arr[], int n) {
         //Complete the function
-        Arrays.sort(arr);
+        //Arrays.sort(arr);
         Map<Integer,Integer> map=new HashMap<>();
         for(int num:arr) map.put(num,map.getOrDefault(num,0)+1);
         int result=0;
