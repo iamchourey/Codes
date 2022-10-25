@@ -1,0 +1,31 @@
+class Solution {
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        List<List<Integer>> res=new ArrayList<>();
+        int m=heights.length,n=heights[0].length;
+        
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                boolean bothOceans[]=new boolean[2];
+                boolean visited[][]=new boolean[m][n];
+                dfs(heights,m,n,i,j,bothOceans,visited);
+                if(bothOceans[0] && bothOceans[1]){
+                    List<Integer> temp=new ArrayList<>();
+                    temp.add(i);
+                    temp.add(j);
+                    res.add(temp);
+                }
+            }
+        }
+        return res;
+    }
+    public void dfs(int[][] heights,int m,int n,int x,int y,boolean[] bothOceans,boolean[][] visited){
+        if(x<0 || y<0 || x>=m || y>=n || visited[x][y]) return;
+        if(x==0 || y==0) bothOceans[0]=true;
+        if(x==m-1 || y==n-1) bothOceans[1]=true;
+        visited[x][y]=true;
+        if(x>0 && heights[x-1][y]<=heights[x][y]) dfs(heights,m,n,x-1,y,bothOceans,visited);
+        if(y>0 && heights[x][y-1]<=heights[x][y]) dfs(heights,m,n,x,y-1,bothOceans,visited);
+        if(x<m-1 && heights[x+1][y]<=heights[x][y]) dfs(heights,m,n,x+1,y,bothOceans,visited);
+        if(y<n-1 && heights[x][y+1]<=heights[x][y]) dfs(heights,m,n,x,y+1,bothOceans,visited);
+    }
+}
