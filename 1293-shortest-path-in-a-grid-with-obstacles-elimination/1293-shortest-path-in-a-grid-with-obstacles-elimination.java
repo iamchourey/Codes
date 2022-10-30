@@ -3,7 +3,7 @@ class Solution {
         
         int m=grid.length,n=grid[0].length;
         Queue<int[]> q=new LinkedList<>();
-        boolean visited[][][]=new boolean[m][n][k+2];
+        boolean visited[][][]=new boolean[m][n][k+1];
         int result=Integer.MAX_VALUE;
         if(grid[0][0]==1) k--;
         q.add(new int[]{0,0,k,0});
