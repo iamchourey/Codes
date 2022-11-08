@@ -1,42 +1,48 @@
 class Solution {
-    class Pair{
-        int[] arr;
-        int dist;
-        public Pair(int[] arr,int dist){
-            this.arr=arr;
-            this.dist=dist;
-        }
-    }
+    int[] parent;
+    int[] rank;
     public int minCostConnectPoints(int[][] points) {
-        int result=0;
-        PriorityQueue<Pair> pq=new PriorityQueue<>(new Comparator<Pair>(){
-            public int compare(Pair p1,Pair p2){
-                return p1.dist-p2.dist;
+        List<int[]> edges=new ArrayList<>();
+        parent=new int[points.length];
+        rank=new int[points.length];
+        for(int i=0;i<points.length;i++){
+            parent[i]=i;
+            rank[i]=1;
+        }
+        for(int i=0;i<points.length;i++){
+            for(int j=i+1;j<points.length;j++){
+                int dist=Math.abs(points[i][0]-points[j][0])+Math.abs(points[i][1]-points[j][1]);
+                edges.add(new int[]{i,j,dist});
             }
+        }
+        int result=0;
+        Collections.sort(edges,new Comparator<int[]>(){
+           public int compare(int[] a1,int[] a2){
+               return a1[2]-a2[2];
+           } 
         });
-        Set<Integer> set=new HashSet<>();
-        set.add(0);
-        getDistances(points,0,pq,set);
-        int count=0;
         
-        while(count!=points.length-1){
-            Pair p=pq.poll();
-            int dist=p.dist;
-            int[] temp=p.arr;
-            if(set.contains(temp[1])) continue;
-            result+=dist;
-            count++;
-            set.add(temp[1]);
-            getDistances(points,temp[1],pq,set);
+        for(int[] edge:edges){
+            if(find(edge[0])!=find(edge[1])){
+                union(edge[0],edge[1]);
+                result+=edge[2];
+            }
         }
         return result;
     }
-    public void getDistances(int[][] points,int index,PriorityQueue<Pair> pq,Set<Integer> set){
-        for(int i=0;i<points.length;i++){
-            if(i!=index && !set.contains(i)){
-                int dist=Math.abs(points[index][0]-points[i][0])+Math.abs(points[index][1]-points[i][1]);
-                pq.add(new Pair(new int[]{index,i},dist));
-            }
+    public int find(int val){
+        if(parent[val]==val) return val;
+        return parent[val]=find(parent[val]);
+    }
+    public void union(int a,int b){
+        int leaderOfA=find(a);
+        int leaderOfB=find(b);
+        if(leaderOfA==leaderOfB) return;
+        if(rank[leaderOfA]>rank[leaderOfB]) parent[leaderOfB]=leaderOfA;
+        else if(rank[leaderOfA]<rank[leaderOfB]) parent[leaderOfA]=leaderOfB;
+        else{
+            parent[leaderOfB]=leaderOfA;
+            rank[leaderOfA]++;
         }
     }
 }
