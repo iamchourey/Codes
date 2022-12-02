@@ -1,46 +1,42 @@
 class Solution {
-    private int[] parent;
     public String smallestStringWithSwaps(String s, List<List<Integer>> pairs) {
-        if (s == null || s.length() == 0) {
-            return null;
-        }
-        parent = new int[s.length()];
-        for (int i = 0; i < parent.length; i++) {
-            parent[i] = i;
-        }
+        int n=s.length();
+        int[] parent=new int[n];
+        int[] rank=new int[n];
         
-        for (List<Integer> pair : pairs) {
-            union(pair.get(0), pair.get(1));
+        for(int i=0;i<n;i++){
+            parent[i]=i;
+            rank[i]=1;
         }
-        
-        Map<Integer, PriorityQueue<Character>> map = new HashMap<>();
-        char[] sChar = s.toCharArray();
-        for (int i = 0; i < sChar.length; i++) {
-            int root = find(i);
-            map.putIfAbsent(root, new PriorityQueue<>());
-            map.get(root).offer(sChar[i]);
+        for(List<Integer> pair:pairs){
+            union(pair.get(0),pair.get(1),parent,rank);
         }
-        
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < sChar.length; i++) {
-            sb.append(map.get(find(i)).poll());
+        Map<Integer,PriorityQueue<Character>> map=new HashMap<>();
+        for(int i=0;i<n;i++){
+            int leader=find(i,parent);
+            if(!map.containsKey(leader)) map.put(leader,new PriorityQueue<>());
+            map.get(leader).add(s.charAt(i));
+        }
+        StringBuilder sb=new StringBuilder();
+        for(int i=0;i<n;i++){
+            int leader=find(i,parent);
+            sb.append(map.get(leader).poll());
         }
         return sb.toString();
     }
-    private int find(int index) {
-        while (parent[index] != index) {
-            parent[index] = parent[parent[index]];
-            index = parent[index];
+    public void union(int a,int b,int[] parent,int rank[]){
+        int leadera=find(a,parent);
+        int leaderb=find(b,parent);
+        if(leadera==leaderb) return;
+        if(rank[leadera]>rank[leaderb]) parent[leaderb]=leadera;
+        else if(rank[leadera]<rank[leaderb]) parent[leadera]=leaderb;
+        else{
+            parent[leadera]=leaderb;
+            rank[leaderb]++;
         }
-        return index;
     }
-    private void union(int a, int b) {
-        int aParent = find(a);
-        int bParent = find(b);
-        if (aParent < bParent) {
-            parent[bParent] = aParent;
-        } else {
-            parent[aParent] = bParent;
-        }
+    public int find(int val,int[] parent){
+        if(parent[val]==val) return val;
+        return parent[val]=find(parent[val],parent);
     }
 }
