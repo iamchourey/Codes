@@ -1,33 +1,39 @@
 class Solution {
-    class Pair{
-        int dest,dist;
-        public Pair(int dest,int dist){
-            this.dest=dest;
-            this.dist=dist;
-        }
-    }
     public int minScore(int n, int[][] roads) {
-        List<List<Pair>> adj=new ArrayList<>();
-        for(int i=0;i<=n;i++) adj.add(new ArrayList<>());
+        int[] parent=new int[n+1];
+        int[] rank=new int[n+1];
+        int distance[]=new int[n+1];
+        Arrays.fill(distance,Integer.MAX_VALUE);
+        for(int i=0;i<=n;i++){
+            rank[i]=1;
+            parent[i]=i;
+        }
+        
         for(int road[]:roads){
-            adj.get(road[0]).add(new Pair(road[1],road[2]));
-            adj.get(road[1]).add(new Pair(road[0],road[2]));
+            union(road[0],road[1],road[2],parent,rank,distance);
         }
-        Queue<Integer> queue=new LinkedList<>();
-        boolean visited[]=new boolean[n+1];
-        queue.add(1);
-        visited[1]=true;
-        int result=Integer.MAX_VALUE;
-        while(queue.isEmpty()==false){
-            int curr=queue.poll();
-            for(Pair p:adj.get(curr)){
-                result=Math.min(result,p.dist);
-                if(visited[p.dest]==false){
-                    queue.add(p.dest);
-                    visited[p.dest]=true;
-                }
-            }
-        }
-        return result;
+        int par=find(1,parent);
+        if(par==find(n,parent)) return distance[par];
+        return -1;
     }
+    public void union(int u,int v,int dist,int[] parent,int[] rank,int[] distance){
+        int lu=find(u,parent);
+        int lv=find(v,parent);
+        
+        int minDist=Math.min(distance[lu],distance[lv]);
+        int minDistance=Math.min(minDist,dist);
+        distance[lu]=distance[lv]=minDistance;
+        
+        if(lu==lv) return;
+        if(rank[lv]<rank[lu]) parent[lv]=lu;
+        else if(rank[lv]>rank[lu]) parent[lu]=lv;
+        else{
+            parent[lv]=lu;
+            rank[lu]++;
+        }
+    }
+    public int find(int val,int[] parent){
+        if(parent[val]==val) return val;
+        return parent[val]=find(parent[val],parent);
+    } 
 }
